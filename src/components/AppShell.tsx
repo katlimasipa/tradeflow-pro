@@ -53,9 +53,12 @@ export function AppShell({ children }: { children: ReactNode }) {
             </NavLink>
           ))}
         </nav>
-        <div className="mt-auto p-3">
+        <div className="mt-auto p-3 grid gap-1.5">
           <Button onClick={() => setOpen(true)} className="w-full justify-start gap-2" size="sm">
             <Plus className="h-4 w-4" /> New trade
+          </Button>
+          <Button onClick={signOut} variant="ghost" size="sm" className="w-full justify-start gap-2 text-muted-foreground">
+            <LogOut className="h-4 w-4" /> Sign out
           </Button>
         </div>
       </aside>
