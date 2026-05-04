@@ -94,7 +94,11 @@ export function useTrades() {
   }, []);
 
   const updateTrade = useCallback(async (id: string, patch: Partial<Trade>) => {
-    const dbPatch: Record<string, string | number | null> = {};
+    const dbPatch: {
+      date?: string; pair?: string; timeframe?: string;
+      risk_pct?: number; result?: string; pnl?: number; pnl_pct?: number;
+      screenshot_url?: string | null; screenshot_link?: string | null;
+    } = {};
     if (patch.date !== undefined) dbPatch.date = patch.date;
     if (patch.pair !== undefined) dbPatch.pair = patch.pair;
     if (patch.timeframe !== undefined) dbPatch.timeframe = patch.timeframe;
