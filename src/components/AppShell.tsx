@@ -1,18 +1,26 @@
-import { NavLink } from "react-router-dom";
-import { LayoutDashboard, BookOpen, Calendar as CalendarIcon, LineChart, Plus } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { LayoutDashboard, BookOpen, Calendar as CalendarIcon, LineChart, Plus, LogOut } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { TradeDialog } from "./TradeDialog";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { resetTradesCache } from "@/lib/store";
 
 const nav = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
-  { to: "/journal", label: "Journal", icon: BookOpen },
-  { to: "/calendar", label: "Calendar", icon: CalendarIcon },
-  { to: "/analytics", label: "Analytics", icon: LineChart },
+  { to: "/app", label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: "/app/journal", label: "Journal", icon: BookOpen },
+  { to: "/app/calendar", label: "Calendar", icon: CalendarIcon },
+  { to: "/app/analytics", label: "Analytics", icon: LineChart },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    resetTradesCache();
+    navigate("/", { replace: true });
+  };
   return (
     <div className="min-h-screen flex w-full bg-background">
       {/* Sidebar — desktop */}
