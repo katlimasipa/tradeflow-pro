@@ -44,8 +44,8 @@ export default function Auth() {
     <div className="min-h-screen grid md:grid-cols-2 bg-background">
       <div className="hidden md:flex flex-col justify-between p-12 bg-surface-sunk relative overflow-hidden">
         <div className="flex items-center gap-2">
-          <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">L</div>
-          <span className="font-display text-[15px]">Ledger</span>
+          <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
+          <span className="font-display text-[15px]">LedgerZar</span>
         </div>
         <div className="relative z-10">
           <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-3">A trading journal</div>
@@ -57,15 +57,15 @@ export default function Auth() {
             A quiet place to log every position, attach the chart, and watch your edge appear over time.
           </p>
         </div>
-        <div className="text-xs text-muted-foreground num">© {new Date().getFullYear()} Ledger</div>
+        <div className="text-xs text-muted-foreground num">© {new Date().getFullYear()} LedgerZar</div>
         <div aria-hidden className="absolute -right-32 top-1/2 -translate-y-1/2 h-[420px] w-[420px] rounded-full bg-primary/[0.04] blur-3xl" />
       </div>
 
       <div className="flex items-center justify-center p-6 md:p-12">
         <div className="w-full max-w-sm">
           <div className="md:hidden flex items-center gap-2 mb-10">
-            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">L</div>
-            <span className="font-display text-[15px]">Ledger</span>
+            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
+            <span className="font-display text-[15px]">LedgerZar</span>
           </div>
           <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">
             {mode === "signin" ? "Welcome back" : "Get started"}

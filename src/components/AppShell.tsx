@@ -27,9 +27,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       <aside className="hidden md:flex w-60 shrink-0 flex-col border-r bg-sidebar">
         <div className="px-5 pt-6 pb-8">
           <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">L</div>
+            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
             <div className="leading-tight">
-              <div className="font-display text-[15px]">Ledger</div>
+              <div className="font-display text-[15px]">LedgerZar</div>
               <div className="text-[11px] text-muted-foreground">Trading journal</div>
             </div>
           </div>
@@ -60,6 +60,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Button onClick={signOut} variant="ghost" size="sm" className="w-full justify-start gap-2 text-muted-foreground">
             <LogOut className="h-4 w-4" /> Sign out
           </Button>
+          <div className="px-3 pt-2 text-[10px] text-muted-foreground">
+            Built by <a href="https://architeq.co.za" target="_blank" rel="noreferrer" className="hover:text-foreground">Architeq Web Agency</a>
+          </div>
         </div>
       </aside>
 
@@ -67,8 +70,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="md:hidden fixed top-0 inset-x-0 z-30 border-b bg-background/85 backdrop-blur">
         <div className="flex items-center justify-between px-4 h-14">
           <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">L</div>
-            <span className="font-display text-[15px]">Ledger</span>
+            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
+            <span className="font-display text-[15px]">LedgerZar</span>
           </div>
           <Button size="sm" onClick={() => setOpen(true)} className="gap-1.5">
             <Plus className="h-4 w-4" /> Trade

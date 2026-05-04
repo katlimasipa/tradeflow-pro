@@ -13,8 +13,8 @@ export default function Landing() {
       <header className="border-b">
         <div className="mx-auto max-w-[1180px] px-5 md:px-10 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">L</div>
-            <span className="font-display text-[15px]">Ledger</span>
+            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
+            <span className="font-display text-[15px]">LedgerZar</span>
           </div>
           <div className="flex items-center gap-2">
             <Button asChild variant="ghost" size="sm"><Link to="/auth">Sign in</Link></Button>
@@ -57,7 +57,10 @@ export default function Landing() {
 
       <footer className="border-t">
         <div className="mx-auto max-w-[1180px] px-5 md:px-10 h-14 flex items-center justify-between text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} Ledger</span>
+          <div className="flex flex-col gap-1">
+            <span>© {new Date().getFullYear()} LedgerZar</span>
+            <span>Built by <a href="https://architeq.co.za" target="_blank" rel="noreferrer" className="hover:text-foreground">Architeq Web Agency</a></span>
+          </div>
           <Link to="/auth" className="hover:text-foreground">Sign in →</Link>
         </div>
       </footer>
