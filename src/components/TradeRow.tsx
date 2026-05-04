@@ -1,4 +1,4 @@
-import { Trash2, Pencil } from "lucide-react";
+import { Trash2, Pencil, Image as ImageIcon, Link2 } from "lucide-react";
 import { useState } from "react";
 import { useTrades } from "@/lib/store";
 import { formatMoney, formatPct } from "@/lib/analytics";
@@ -6,10 +6,12 @@ import type { Trade } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { TradeDialog } from "./TradeDialog";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export function TradeRow({ trade }: { trade: Trade }) {
   const { deleteTrade } = useTrades();
   const [edit, setEdit] = useState(false);
+  const [preview, setPreview] = useState(false);
   const win = trade.result === "Win";
 
   return (
@@ -19,7 +21,19 @@ export function TradeRow({ trade }: { trade: Trade }) {
           {new Date(trade.date + "T00:00:00").toLocaleDateString(undefined, { month: "short", day: "2-digit" })}
         </div>
         <div className="min-w-0">
-          <div className="font-medium tracking-tight">{trade.pair}</div>
+          <div className="font-medium tracking-tight flex items-center gap-1.5">
+            {trade.pair}
+            {trade.screenshotUrl && (
+              <button onClick={() => setPreview(true)} className="text-muted-foreground hover:text-foreground" aria-label="View screenshot">
+                <ImageIcon className="h-3 w-3" />
+              </button>
+            )}
+            {trade.screenshotLink && (
+              <a href={trade.screenshotLink} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground" aria-label="Open link">
+                <Link2 className="h-3 w-3" />
+              </a>
+            )}
+          </div>
           <div className="md:hidden text-xs text-muted-foreground num mt-0.5">
             {trade.timeframe} · Risk {trade.riskPct}%
           </div>
@@ -48,6 +62,13 @@ export function TradeRow({ trade }: { trade: Trade }) {
         </div>
       </div>
       <TradeDialog open={edit} onOpenChange={setEdit} initial={trade} />
+      {trade.screenshotUrl && (
+        <Dialog open={preview} onOpenChange={setPreview}>
+          <DialogContent className="max-w-3xl p-2">
+            <img src={trade.screenshotUrl} alt={`${trade.pair} screenshot`} className="w-full rounded-md" />
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 }

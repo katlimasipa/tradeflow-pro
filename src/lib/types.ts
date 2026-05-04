@@ -10,6 +10,8 @@ export interface Trade {
   result: Result;
   pnl: number;
   pnlPct: number;
+  screenshotUrl?: string | null;
+  screenshotLink?: string | null;
   createdAt: number;
 }
 
