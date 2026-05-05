@@ -99,7 +99,7 @@ export function useBacktestSessions() {
   }, []);
 
   const update = useCallback(async (id: string, patch: Partial<BacktestSession>) => {
-    const dbPatch: Record<string, unknown> = {};
+    const dbPatch: Record<string, any> = {};
     if (patch.name !== undefined) dbPatch.name = patch.name;
     if (patch.pair !== undefined) dbPatch.pair = patch.pair.toUpperCase();
     if (patch.startDate !== undefined) dbPatch.start_date = patch.startDate;
@@ -156,7 +156,7 @@ export function useBacktestSession(id: string | undefined) {
   }, [id]);
 
   const updateTrade = useCallback(async (tid: string, patch: Partial<BacktestTrade>) => {
-    const dbPatch: Record<string, unknown> = {};
+    const dbPatch: Record<string, any> = {};
     if (patch.date !== undefined) dbPatch.date = patch.date;
     if (patch.pair !== undefined) dbPatch.pair = patch.pair;
     if (patch.timeframe !== undefined) dbPatch.timeframe = patch.timeframe;
