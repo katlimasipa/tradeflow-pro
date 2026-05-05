@@ -13,6 +13,8 @@ export function TradeRow({ trade }: { trade: Trade }) {
   const [edit, setEdit] = useState(false);
   const [preview, setPreview] = useState(false);
   const win = trade.result === "Win";
+  const loss = trade.result === "Loss";
+  const be = trade.result === "Break-even";
 
   return (
     <>
@@ -34,7 +36,13 @@ export function TradeRow({ trade }: { trade: Trade }) {
           </div>
           <div className="md:hidden text-xs text-muted-foreground num mt-0.5">
             {trade.timeframe} · Risk {trade.riskPct}% ·{" "}
-            <span className={cn(win ? "text-win" : "text-loss")}>{trade.result}</span>
+            <span className={cn(
+              win && "text-win",
+              loss && "text-loss",
+              be && "text-muted-foreground"
+            )}>
+              {trade.result === "Break-even" ? "BE" : trade.result}
+            </span>
           </div>
         </div>
         <div className="hidden md:block text-xs num text-muted-foreground">{trade.timeframe}</div>
@@ -42,12 +50,19 @@ export function TradeRow({ trade }: { trade: Trade }) {
         <div className="hidden md:block">
           <span className={cn(
             "inline-flex px-2 py-0.5 rounded-full text-[11px] font-medium",
-            win ? "bg-win-soft text-win" : "bg-loss-soft text-loss"
+            win && "bg-win-soft text-win",
+            loss && "bg-loss-soft text-loss",
+            be && "bg-muted text-muted-foreground"
           )}>
             {trade.result}
           </span>
         </div>
-        <div className={cn("text-right md:text-left num text-sm font-medium", win ? "text-win" : "text-loss")}>
+        <div className={cn(
+          "text-right md:text-left num text-sm font-medium",
+          win && "text-win",
+          loss && "text-loss",
+          be && "text-muted-foreground"
+        )}>
           {formatMoney(trade.pnl)}
           <div className="text-[11px] text-muted-foreground font-normal md:inline md:ml-2">{formatPct(trade.pnlPct)}</div>
         </div>

@@ -46,6 +46,14 @@ export function TradeDialog({ open, onOpenChange, initial, defaultDate }: Props)
     }
   }, [open, initial, defaultDate]);
 
+  const handleResultChange = (r: Result) => {
+    setResult(r);
+    if (r === "Break-even") {
+      setPnl("0");
+      setPnlPct("0");
+    }
+  };
+
   const onFile = async (file: File) => {
     if (!file.type.startsWith("image/")) {
       toast.error("Please select an image");
@@ -120,22 +128,24 @@ export function TradeDialog({ open, onOpenChange, initial, defaultDate }: Props)
           </div>
 
           <Field label="Result">
-            <div className="grid grid-cols-2 gap-2 p-1 bg-muted rounded-md">
-              {(["Win", "Loss"] as Result[]).map((r) => (
+            <div className="grid grid-cols-3 gap-2 p-1 bg-muted rounded-md">
+              {(["Win", "Loss", "Break-even"] as Result[]).map((r) => (
                 <button
                   key={r}
                   type="button"
-                  onClick={() => setResult(r)}
+                  onClick={() => handleResultChange(r)}
                   className={cn(
-                    "py-1.5 text-sm rounded-[6px] transition-colors",
+                    "py-2 text-xs md:text-sm rounded-[6px] transition-colors font-medium",
                     result === r
                       ? r === "Win"
                         ? "bg-win text-win-foreground"
-                        : "bg-loss text-loss-foreground"
+                        : r === "Loss"
+                        ? "bg-loss text-loss-foreground"
+                        : "bg-background text-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  {r}
+                  {r === "Break-even" ? "BE" : r}
                 </button>
               ))}
             </div>
@@ -143,10 +153,26 @@ export function TradeDialog({ open, onOpenChange, initial, defaultDate }: Props)
 
           <div className="grid grid-cols-2 gap-3">
             <Field label="Total PnL ($)">
-              <Input type="number" step="0.01" value={pnl} onChange={(e) => setPnl(e.target.value)} className="num" placeholder="0.00" />
+              <Input 
+                type="number" 
+                step="0.01" 
+                value={pnl} 
+                onChange={(e) => setPnl(e.target.value)} 
+                className="num" 
+                placeholder="0.00" 
+                disabled={result === "Break-even"}
+              />
             </Field>
             <Field label="Total PnL (%)">
-              <Input type="number" step="0.01" value={pnlPct} onChange={(e) => setPnlPct(e.target.value)} className="num" placeholder="0.00" />
+              <Input 
+                type="number" 
+                step="0.01" 
+                value={pnlPct} 
+                onChange={(e) => setPnlPct(e.target.value)} 
+                className="num" 
+                placeholder="0.00" 
+                disabled={result === "Break-even"}
+              />
             </Field>
           </div>
 

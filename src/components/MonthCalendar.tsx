@@ -98,6 +98,7 @@ export function MonthCalendar({ trades, refDate, onChangeMonth, onSelectDay, sel
                 "hover:border-foreground/30 active:scale-[0.98]",
                 has && profit && "bg-win-soft border-win/20",
                 has && loss && "bg-loss-soft border-loss/20",
+                has && !profit && !loss && "bg-muted/50 border-muted-foreground/20",
                 !has && "bg-surface",
                 isSelected && "ring-2 ring-ring ring-offset-2 ring-offset-background"
               )}

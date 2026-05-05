@@ -15,16 +15,22 @@ export default function Analytics() {
 
   // Pair breakdown
   const pairs = useMemo(() => {
-    const m = new Map<string, { count: number; pnl: number; wins: number }>();
+    const m = new Map<string, { count: number; pnl: number; wins: number; losses: number; be: number }>();
     for (const t of ranged) {
-      const cur = m.get(t.pair) ?? { count: 0, pnl: 0, wins: 0 };
+      const cur = m.get(t.pair) ?? { count: 0, pnl: 0, wins: 0, losses: 0, be: 0 };
       cur.count++;
       cur.pnl += t.pnl;
       if (t.result === "Win") cur.wins++;
+      else if (t.result === "Loss") cur.losses++;
+      else if (t.result === "Break-even") cur.be++;
       m.set(t.pair, cur);
     }
     return Array.from(m.entries())
-      .map(([pair, v]) => ({ pair, ...v, winRate: (v.wins / v.count) * 100 }))
+      .map(([pair, v]) => ({ 
+        pair, 
+        ...v, 
+        winRate: v.wins + v.losses ? (v.wins / (v.wins + v.losses)) * 100 : 0 
+      }))
       .sort((a, b) => Math.abs(b.pnl) - Math.abs(a.pnl));
   }, [ranged]);
 
@@ -34,9 +40,10 @@ export default function Analytics() {
         <RangeTabs value={range} onChange={setRange} />
       </PageHeader>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
         <StatCard label="Trades" value={stats.total.toString()} />
         <StatCard label="Win rate" value={`${stats.winRate.toFixed(1)}%`} />
+        <StatCard label="Break-evens" value={stats.breakEvens.toString()} />
         <StatCard label="PnL" value={formatMoney(stats.pnl)} tone={stats.pnl >= 0 ? "win" : "loss"} />
         <StatCard label="PnL %" value={formatPct(stats.pnlPct)} tone={stats.pnlPct >= 0 ? "win" : "loss"} />
       </div>
@@ -63,10 +70,11 @@ export default function Analytics() {
         </div>
 
         <div className="card-flat overflow-hidden">
-          <div className="grid grid-cols-[1fr_60px_80px_100px] md:grid-cols-[1fr_80px_100px_120px_120px] gap-3 px-4 py-2.5 border-b text-[10px] uppercase tracking-wider text-muted-foreground font-medium bg-surface-sunk/50">
+          <div className="grid grid-cols-[1fr_60px_80px_100px] md:grid-cols-[1fr_80px_80px_80px_100px_120px] gap-3 px-4 py-2.5 border-b text-[10px] uppercase tracking-wider text-muted-foreground font-medium bg-surface-sunk/50">
             <div>Pair</div>
             <div>Trades</div>
             <div className="hidden md:block">Wins</div>
+            <div className="hidden md:block">BE</div>
             <div>Win rate</div>
             <div>PnL</div>
           </div>
@@ -74,10 +82,11 @@ export default function Analytics() {
             <div className="p-10 text-center text-sm text-muted-foreground">No data in this range.</div>
           ) : (
             pairs.map((p) => (
-              <div key={p.pair} className="grid grid-cols-[1fr_60px_80px_100px] md:grid-cols-[1fr_80px_100px_120px_120px] gap-3 px-4 py-3 border-b last:border-b-0 items-center">
+              <div key={p.pair} className="grid grid-cols-[1fr_60px_80px_100px] md:grid-cols-[1fr_80px_80px_80px_100px_120px] gap-3 px-4 py-3 border-b last:border-b-0 items-center">
                 <div className="font-medium tracking-tight">{p.pair}</div>
                 <div className="num text-sm text-muted-foreground">{p.count}</div>
                 <div className="hidden md:block num text-sm text-muted-foreground">{p.wins}</div>
+                <div className="hidden md:block num text-sm text-muted-foreground">{p.be}</div>
                 <div className="num text-sm">{p.winRate.toFixed(0)}%</div>
                 <div className={`num text-sm font-medium ${p.pnl >= 0 ? "text-win" : "text-loss"}`}>{formatMoney(p.pnl)}</div>
               </div>

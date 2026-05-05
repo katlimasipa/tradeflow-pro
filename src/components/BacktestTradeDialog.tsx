@@ -28,17 +28,17 @@ export function BacktestTradeDialog({ open, onOpenChange, defaultPair, initial, 
   const [pnl, setPnl] = useState(initial?.pnl?.toString() ?? "");
   const [pnlPct, setPnlPct] = useState(initial?.pnlPct?.toString() ?? "");
 
-  useEffect(() => {
-    if (open) {
-      setDate(initial?.date ?? todayISO());
-      setPair(initial?.pair ?? defaultPair ?? "");
-      setTimeframe(initial?.timeframe ?? "H1");
-      setRiskPct(initial?.riskPct?.toString() ?? "1");
-      setResult(initial?.result ?? "Win");
-      setPnl(initial?.pnl?.toString() ?? "");
       setPnlPct(initial?.pnlPct?.toString() ?? "");
     }
   }, [open, initial, defaultPair]);
+
+  const handleResultChange = (r: Result) => {
+    setResult(r);
+    if (r === "Break-even") {
+      setPnl("0");
+      setPnlPct("0");
+    }
+  };
 
   const submit = async () => {
     if (!pair.trim()) { toast.error("Pair is required"); return; }
@@ -80,20 +80,51 @@ export function BacktestTradeDialog({ open, onOpenChange, defaultPair, initial, 
             <Field label="Risk %"><Input type="number" step="0.1" value={riskPct} onChange={(e) => setRiskPct(e.target.value)} className="num" /></Field>
           </div>
           <Field label="Result">
-            <div className="grid grid-cols-2 gap-2 p-1 bg-muted rounded-md">
-              {(["Win", "Loss"] as Result[]).map((r) => (
-                <button key={r} type="button" onClick={() => setResult(r)}
-                  className={cn("py-1.5 text-sm rounded-[6px] transition-colors",
-                    result === r ? r === "Win" ? "bg-win text-win-foreground" : "bg-loss text-loss-foreground"
-                      : "text-muted-foreground hover:text-foreground")}>
-                  {r}
+            <div className="grid grid-cols-3 gap-2 p-1 bg-muted rounded-md">
+              {(["Win", "Loss", "Break-even"] as Result[]).map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => handleResultChange(r)}
+                  className={cn(
+                    "py-2 text-xs md:text-sm rounded-[6px] transition-colors font-medium",
+                    result === r
+                      ? r === "Win"
+                        ? "bg-win text-win-foreground"
+                        : r === "Loss"
+                        ? "bg-loss text-loss-foreground"
+                        : "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {r === "Break-even" ? "BE" : r}
                 </button>
               ))}
             </div>
           </Field>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="PnL ($)"><Input type="number" step="0.01" value={pnl} onChange={(e) => setPnl(e.target.value)} className="num" placeholder="0.00" /></Field>
-            <Field label="PnL (%)"><Input type="number" step="0.01" value={pnlPct} onChange={(e) => setPnlPct(e.target.value)} className="num" placeholder="0.00" /></Field>
+            <Field label="PnL ($)">
+              <Input 
+                type="number" 
+                step="0.01" 
+                value={pnl} 
+                onChange={(e) => setPnl(e.target.value)} 
+                className="num" 
+                placeholder="0.00" 
+                disabled={result === "Break-even"}
+              />
+            </Field>
+            <Field label="PnL (%)">
+              <Input 
+                type="number" 
+                step="0.01" 
+                value={pnlPct} 
+                onChange={(e) => setPnlPct(e.target.value)} 
+                className="num" 
+                placeholder="0.00" 
+                disabled={result === "Break-even"}
+              />
+            </Field>
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>

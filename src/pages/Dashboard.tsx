@@ -21,10 +21,11 @@ export default function Dashboard() {
         <RangeTabs value={range} onChange={setRange} />
       </PageHeader>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
         <StatCard label="Total trades" value={stats.total.toString()} hint={`${ranged.length} in view`} />
         <StatCard label="Wins" value={stats.wins.toString()} tone="win" />
         <StatCard label="Losses" value={stats.losses.toString()} tone="loss" />
+        <StatCard label="Break-evens" value={stats.breakEvens.toString()} />
         <StatCard label="Win rate" value={`${stats.winRate.toFixed(1)}%`} />
         <StatCard label="Total PnL" value={formatMoney(stats.pnl)} tone={stats.pnl >= 0 ? "win" : "loss"} />
         <StatCard label="Total PnL %" value={formatPct(stats.pnlPct)} tone={stats.pnlPct >= 0 ? "win" : "loss"} />

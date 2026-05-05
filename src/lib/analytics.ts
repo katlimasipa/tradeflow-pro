@@ -4,6 +4,7 @@ export interface Stats {
   total: number;
   wins: number;
   losses: number;
+  breakEvens: number;
   winRate: number;
   pnl: number;
   pnlPct: number;
@@ -13,15 +14,20 @@ export interface Stats {
 export function computeStats(trades: Trade[]): Stats {
   const wins = trades.filter((t) => t.result === "Win").length;
   const losses = trades.filter((t) => t.result === "Loss").length;
+  const breakEvens = trades.filter((t) => t.result === "Break-even").length;
   const total = trades.length;
   const pnl = trades.reduce((s, t) => s + (Number(t.pnl) || 0), 0);
   const pnlPct = trades.reduce((s, t) => s + (Number(t.pnlPct) || 0), 0);
   const totalRisk = trades.reduce((s, t) => s + (Number(t.riskPct) || 0), 0);
+  
+  const winRateDenominator = wins + losses;
+  
   return {
     total,
     wins,
     losses,
-    winRate: total ? (wins / total) * 100 : 0,
+    breakEvens,
+    winRate: winRateDenominator ? (wins / winRateDenominator) * 100 : 0,
     pnl,
     pnlPct,
     totalRisk,

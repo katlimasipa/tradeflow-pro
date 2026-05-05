@@ -18,10 +18,21 @@ export default function BacktestSession() {
   const stats = useMemo(() => {
     const wins = trades.filter((t) => t.result === "Win").length;
     const losses = trades.filter((t) => t.result === "Loss").length;
+    const be = trades.filter((t) => t.result === "Break-even").length;
     const pnl = trades.reduce((s, t) => s + Number(t.pnl || 0), 0);
     const pnlPct = trades.reduce((s, t) => s + Number(t.pnlPct || 0), 0);
     const totalRisk = trades.reduce((s, t) => s + Number(t.riskPct || 0), 0);
-    return { total: trades.length, wins, losses, pnl, pnlPct, totalRisk, winRate: trades.length ? (wins / trades.length) * 100 : 0 };
+    const wrDenom = wins + losses;
+    return { 
+      total: trades.length, 
+      wins, 
+      losses, 
+      be,
+      pnl, 
+      pnlPct, 
+      totalRisk, 
+      winRate: wrDenom ? (wins / wrDenom) * 100 : 0 
+    };
   }, [trades]);
 
   const series = useMemo(() => {
@@ -71,10 +82,11 @@ export default function BacktestSession() {
         <div className="card-flat p-4 mb-6 text-sm text-muted-foreground whitespace-pre-wrap">{session.notes}</div>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
         <StatCard label="Trades" value={stats.total.toString()} />
         <StatCard label="Wins" value={stats.wins.toString()} tone="win" />
         <StatCard label="Losses" value={stats.losses.toString()} tone="loss" />
+        <StatCard label="Break-evens" value={stats.be.toString()} />
         <StatCard label="Win rate" value={`${stats.winRate.toFixed(1)}%`} />
         <StatCard label="Total PnL" value={formatMoney(stats.pnl)} tone={stats.pnl >= 0 ? "win" : "loss"} />
         <StatCard label="Total PnL %" value={formatPct(stats.pnlPct)} tone={stats.pnlPct >= 0 ? "win" : "loss"} />
@@ -118,8 +130,10 @@ export default function BacktestSession() {
           ) : (
             trades.map((t) => {
               const win = t.result === "Win";
+              const loss = t.result === "Loss";
+              const be = t.result === "Break-even";
               return (
-                <div key={t.id} className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[110px_1fr_70px_70px_90px_120px_auto] items-center gap-3 px-4 py-3 border-b last:border-b-0 hover:bg-muted/40">
+                <div key={t.id} className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[110px_1fr_70px_70px_90px_120px_auto] items-center gap-3 px-4 py-3 border-b last:border-b-0 hover:bg-muted/40 transition-colors">
                   <div className="num text-xs text-muted-foreground">
                     {new Date(t.date + "T00:00:00").toLocaleDateString(undefined, { month: "short", day: "2-digit", year: "2-digit" })}
                   </div>
@@ -130,11 +144,21 @@ export default function BacktestSession() {
                   <div className="hidden md:block text-xs num text-muted-foreground">{t.timeframe}</div>
                   <div className="hidden md:block text-xs num text-muted-foreground">{t.riskPct}%</div>
                   <div className="hidden md:block">
-                    <span className={cn("inline-flex px-2 py-0.5 rounded-full text-[11px] font-medium", win ? "bg-win-soft text-win" : "bg-loss-soft text-loss")}>
+                    <span className={cn(
+                      "inline-flex px-2 py-0.5 rounded-full text-[11px] font-medium",
+                      win && "bg-win-soft text-win",
+                      loss && "bg-loss-soft text-loss",
+                      be && "bg-muted text-muted-foreground"
+                    )}>
                       {t.result}
                     </span>
                   </div>
-                  <div className={cn("text-right md:text-left num text-sm font-medium", win ? "text-win" : "text-loss")}>
+                  <div className={cn(
+                    "text-right md:text-left num text-sm font-medium",
+                    win && "text-win",
+                    loss && "text-loss",
+                    be && "text-muted-foreground"
+                  )}>
                     {formatMoney(t.pnl)}
                     <div className="text-[11px] text-muted-foreground font-normal md:inline md:ml-2">{formatPct(t.pnlPct)}</div>
                   </div>
