@@ -159,7 +159,10 @@ export function useBacktestSession(id: string | undefined) {
   }, [id]);
 
   const updateTrade = useCallback(async (tid: string, patch: Partial<BacktestTrade>) => {
-    const dbPatch: Record<string, any> = {};
+    const dbPatch: {
+      date?: string; pair?: string; timeframe?: string; risk_pct?: number;
+      result?: string; pnl?: number; pnl_pct?: number;
+    } = {};
     if (patch.date !== undefined) dbPatch.date = patch.date;
     if (patch.pair !== undefined) dbPatch.pair = patch.pair;
     if (patch.timeframe !== undefined) dbPatch.timeframe = patch.timeframe;
