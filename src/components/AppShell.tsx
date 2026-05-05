@@ -21,6 +21,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const signOut = async () => {
     await supabase.auth.signOut();
     resetTradesCache();
+    resetBacktestCache();
     navigate("/", { replace: true });
   };
   return (
