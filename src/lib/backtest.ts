@@ -99,7 +99,10 @@ export function useBacktestSessions() {
   }, []);
 
   const update = useCallback(async (id: string, patch: Partial<BacktestSession>) => {
-    const dbPatch: Record<string, any> = {};
+    const dbPatch: {
+      name?: string; pair?: string; start_date?: string | null;
+      end_date?: string | null; notes?: string | null;
+    } = {};
     if (patch.name !== undefined) dbPatch.name = patch.name;
     if (patch.pair !== undefined) dbPatch.pair = patch.pair.toUpperCase();
     if (patch.startDate !== undefined) dbPatch.start_date = patch.startDate;
