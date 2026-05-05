@@ -14,6 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
+      backtest_sessions: {
+        Row: {
+          created_at: string
+          end_date: string | null
+          id: string
+          name: string
+          notes: string | null
+          pair: string
+          start_date: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          pair: string
+          start_date?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          pair?: string
+          start_date?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      backtest_trades: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          notes: string | null
+          pair: string
+          pnl: number
+          pnl_pct: number
+          result: string
+          risk_pct: number
+          screenshot_link: string | null
+          screenshot_url: string | null
+          session_id: string
+          timeframe: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          notes?: string | null
+          pair: string
+          pnl?: number
+          pnl_pct?: number
+          result: string
+          risk_pct?: number
+          screenshot_link?: string | null
+          screenshot_url?: string | null
+          session_id: string
+          timeframe: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          notes?: string | null
+          pair?: string
+          pnl?: number
+          pnl_pct?: number
+          result?: string
+          risk_pct?: number
+          screenshot_link?: string | null
+          screenshot_url?: string | null
+          session_id?: string
+          timeframe?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "backtest_trades_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "backtest_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       trades: {
         Row: {
           created_at: string
