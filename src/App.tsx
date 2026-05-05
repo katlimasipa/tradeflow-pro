@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import Journal from "./pages/Journal";
 import CalendarPage from "./pages/CalendarPage";
 import Analytics from "./pages/Analytics";
+import Backtesting from "./pages/Backtesting";
+import BacktestSession from "./pages/BacktestSession";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ function ProtectedApp() {
         <Route path="journal" element={<Journal />} />
         <Route path="calendar" element={<CalendarPage />} />
         <Route path="analytics" element={<Analytics />} />
+        <Route path="backtesting" element={<Backtesting />} />
+        <Route path="backtesting/:id" element={<BacktestSession />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AppShell>
