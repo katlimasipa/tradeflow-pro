@@ -68,15 +68,18 @@ export function MonthCalendar({ trades, refDate, onChangeMonth, onSelectDay, sel
         </div>
       </div>
 
-      <div className="grid grid-cols-7 text-[10px] uppercase tracking-wider text-muted-foreground px-2 pt-3">
+      <div className="grid grid-cols-7 text-[10px] uppercase tracking-wider text-muted-foreground px-1.5 sm:px-2 pt-3">
         {WEEKDAYS.map((d) => (
-          <div key={d} className="px-2 py-1">{d}</div>
+          <div key={d} className="px-1 sm:px-2 py-1 text-center sm:text-left">
+            <span className="sm:hidden">{d.slice(0, 1)}</span>
+            <span className="hidden sm:inline">{d}</span>
+          </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-1 p-2 pt-1">
+      <div className="grid grid-cols-7 gap-1 sm:gap-1.5 p-1.5 sm:p-2 pt-1">
         {grid.map((cell, i) => {
-          if (!cell.date) return <div key={i} className="aspect-square sm:aspect-[4/3]" />;
+          if (!cell.date) return <div key={i} className="min-h-[64px] sm:aspect-[4/3]" />;
           const dayTrades = byDay.get(cell.date) ?? [];
           const totalPnl = dayTrades.reduce((s, t) => s + t.pnl, 0);
           const totalPct = dayTrades.reduce((s, t) => s + t.pnlPct, 0);
@@ -91,8 +94,8 @@ export function MonthCalendar({ trades, refDate, onChangeMonth, onSelectDay, sel
               key={i}
               onClick={() => onSelectDay?.(cell.date!)}
               className={cn(
-                "group relative aspect-square sm:aspect-[4/3] rounded-md border text-left p-2 transition-all",
-                "hover:border-foreground/30",
+                "group relative min-h-[64px] sm:min-h-0 sm:aspect-[4/3] rounded-md border text-left p-1.5 sm:p-2 transition-all flex flex-col",
+                "hover:border-foreground/30 active:scale-[0.98]",
                 has && profit && "bg-win-soft border-win/20",
                 has && loss && "bg-loss-soft border-loss/20",
                 !has && "bg-surface",
@@ -101,29 +104,24 @@ export function MonthCalendar({ trades, refDate, onChangeMonth, onSelectDay, sel
             >
               <div className="flex items-center justify-between">
                 <span className={cn(
-                  "text-xs num font-medium",
-                  isToday && "h-5 w-5 rounded-full bg-foreground text-background grid place-items-center text-[11px]"
+                  "text-[11px] sm:text-xs num font-medium",
+                  isToday && "h-5 w-5 rounded-full bg-foreground text-background grid place-items-center text-[10px] sm:text-[11px]"
                 )}>
                   {cell.day}
                 </span>
-                {has && (
-                  <span className="text-[10px] text-muted-foreground hidden sm:block">
-                    {dayTrades.length} {dayTrades.length === 1 ? "trade" : "trades"}
-                  </span>
-                )}
               </div>
 
               {has && (
-                <div className="absolute bottom-2 left-2 right-2">
+                <div className="mt-auto">
                   <div className={cn(
-                    "text-[11px] num font-medium truncate",
+                    "text-[10px] sm:text-[11px] num font-semibold leading-tight",
                     profit && "text-win",
                     loss && "text-loss"
                   )}>
                     {formatPct(totalPct)}
                   </div>
-                  <div className="text-[10px] text-muted-foreground sm:hidden">
-                    {dayTrades.length}
+                  <div className="text-[9px] sm:text-[10px] text-muted-foreground leading-tight mt-0.5">
+                    {dayTrades.length} {dayTrades.length === 1 ? "trade" : "trades"}
                   </div>
                 </div>
               )}
