@@ -1,16 +1,18 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, BookOpen, Calendar as CalendarIcon, LineChart, Plus, LogOut } from "lucide-react";
+import { LayoutDashboard, BookOpen, Calendar as CalendarIcon, LineChart, Plus, LogOut, FlaskConical } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { TradeDialog } from "./TradeDialog";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { resetTradesCache } from "@/lib/store";
+import { resetBacktestCache } from "@/lib/backtest";
 
 const nav = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/app/journal", label: "Journal", icon: BookOpen },
   { to: "/app/calendar", label: "Calendar", icon: CalendarIcon },
   { to: "/app/analytics", label: "Analytics", icon: LineChart },
+  { to: "/app/backtesting", label: "Backtesting", icon: FlaskConical },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
