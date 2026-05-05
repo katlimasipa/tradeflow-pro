@@ -28,6 +28,14 @@ export function BacktestTradeDialog({ open, onOpenChange, defaultPair, initial, 
   const [pnl, setPnl] = useState(initial?.pnl?.toString() ?? "");
   const [pnlPct, setPnlPct] = useState(initial?.pnlPct?.toString() ?? "");
 
+  useEffect(() => {
+    if (open) {
+      setDate(initial?.date ?? todayISO());
+      setPair(initial?.pair ?? defaultPair ?? "");
+      setTimeframe(initial?.timeframe ?? "H1");
+      setRiskPct(initial?.riskPct?.toString() ?? "1");
+      setResult(initial?.result ?? "Win");
+      setPnl(initial?.pnl?.toString() ?? "");
       setPnlPct(initial?.pnlPct?.toString() ?? "");
     }
   }, [open, initial, defaultPair]);

@@ -197,7 +197,7 @@ export function TradeDialog({ open, onOpenChange, initial, defaultDate }: Props)
                 className="flex items-center justify-center gap-2 h-20 rounded-md border border-dashed border-input bg-muted/30 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-60"
               >
                 {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
-                {uploading ? "Uploading…" : "Upload image"}
+                {uploading ? "Uploading..." : "Upload image"}
               </button>
             )}
             <input
@@ -217,7 +217,7 @@ export function TradeDialog({ open, onOpenChange, initial, defaultDate }: Props)
             <div className="relative">
               <Link2 className="h-3.5 w-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="https://tradingview.com/x/…"
+                placeholder="https://tradingview.com/x/..."
                 value={screenshotLink}
                 onChange={(e) => setScreenshotLink(e.target.value)}
                 className="pl-8"
