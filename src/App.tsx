@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import Journal from "./pages/Journal";
 import CalendarPage from "./pages/CalendarPage";
 import Analytics from "./pages/Analytics";
+import Backtesting from "./pages/Backtesting";
+import BacktestSession from "./pages/BacktestSession";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
