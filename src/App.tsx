@@ -28,6 +28,8 @@ function ProtectedApp() {
         <Route path="journal" element={<Journal />} />
         <Route path="calendar" element={<CalendarPage />} />
         <Route path="analytics" element={<Analytics />} />
+        <Route path="backtesting" element={<Backtesting />} />
+        <Route path="backtesting/:id" element={<BacktestSession />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AppShell>
