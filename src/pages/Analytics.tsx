@@ -49,7 +49,7 @@ export default function Analytics() {
         <div className="mt-8 card-flat p-10 text-center">
           <div className="font-display text-xl mb-1">Cumulative chart</div>
           <div className="text-sm text-muted-foreground max-w-md mx-auto">
-            The cumulative profit graph is available on the monthly view. Switch to <span className="font-medium text-foreground">Month</span> to see it.
+            The cumulative profit graph is currently optimized for the <span className="font-medium text-foreground">Month</span> view. Switch ranges to see detailed daily performance.
           </div>
         </div>
       )}

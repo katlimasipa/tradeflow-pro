@@ -5,6 +5,7 @@ const RANGES: { v: Range; label: string }[] = [
   { v: "weekly", label: "Week" },
   { v: "monthly", label: "Month" },
   { v: "yearly", label: "Year" },
+  { v: "overall", label: "Overall" },
 ];
 
 export function RangeTabs({ value, onChange }: { value: Range; onChange: (r: Range) => void }) {

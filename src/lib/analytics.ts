@@ -28,7 +28,7 @@ export function computeStats(trades: Trade[]): Stats {
   };
 }
 
-export type Range = "weekly" | "monthly" | "yearly";
+export type Range = "weekly" | "monthly" | "yearly" | "overall";
 
 export function filterByRange(trades: Trade[], range: Range, ref = new Date()): Trade[] {
   const r = new Date(ref);
@@ -46,7 +46,10 @@ export function filterByRange(trades: Trade[], range: Range, ref = new Date()): 
     if (range === "monthly") {
       return d.getFullYear() === r.getFullYear() && d.getMonth() === r.getMonth();
     }
-    return d.getFullYear() === r.getFullYear();
+    if (range === "yearly") {
+      return d.getFullYear() === r.getFullYear();
+    }
+    return true; // overall
   });
 }
 
