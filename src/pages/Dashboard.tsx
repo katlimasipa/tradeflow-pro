@@ -6,19 +6,23 @@ import { PageHeader } from "@/components/PageHeader";
 import { RangeTabs } from "@/components/RangeTabs";
 import { MonthlyChart } from "@/components/MonthlyChart";
 import { TradeRow } from "@/components/TradeRow";
+import { DateNavigation } from "@/components/DateNavigation";
 
 export default function Dashboard() {
   const { trades } = useTrades();
   const [range, setRange] = useState<Range>("monthly");
-  const refDate = new Date();
-  const ranged = useMemo(() => filterByRange(trades, range, refDate), [trades, range]);
+  const [refDate, setRefDate] = useState(new Date());
+  const ranged = useMemo(() => filterByRange(trades, range, refDate), [trades, range, refDate]);
   const stats = useMemo(() => computeStats(ranged), [ranged]);
   const recent = useMemo(() => trades.slice(0, 5), [trades]);
 
   return (
     <div>
       <PageHeader eyebrow="Overview" title="Dashboard">
-        <RangeTabs value={range} onChange={setRange} />
+        <div className="flex flex-col md:flex-row gap-4 md:items-center">
+          <DateNavigation range={range} refDate={refDate} onChange={setRefDate} />
+          <RangeTabs value={range} onChange={(v) => { setRange(v); setRefDate(new Date()); }} />
+        </div>
       </PageHeader>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">

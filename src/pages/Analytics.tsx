@@ -5,12 +5,13 @@ import { RangeTabs } from "@/components/RangeTabs";
 import { computeStats, filterByRange, formatMoney, formatPct, type Range } from "@/lib/analytics";
 import { StatCard } from "@/components/StatCard";
 import { MonthlyChart } from "@/components/MonthlyChart";
+import { DateNavigation } from "@/components/DateNavigation";
 
 export default function Analytics() {
   const { trades } = useTrades();
   const [range, setRange] = useState<Range>("monthly");
-  const refDate = new Date();
-  const ranged = useMemo(() => filterByRange(trades, range, refDate), [trades, range]);
+  const [refDate, setRefDate] = useState(new Date());
+  const ranged = useMemo(() => filterByRange(trades, range, refDate), [trades, range, refDate]);
   const stats = useMemo(() => computeStats(ranged), [ranged]);
 
   // Pair breakdown
@@ -37,7 +38,10 @@ export default function Analytics() {
   return (
     <div>
       <PageHeader eyebrow="Performance" title="Analytics">
-        <RangeTabs value={range} onChange={setRange} />
+        <div className="flex flex-col md:flex-row gap-4 md:items-center">
+          <DateNavigation range={range} refDate={refDate} onChange={setRefDate} />
+          <RangeTabs value={range} onChange={(v) => { setRange(v); setRefDate(new Date()); }} />
+        </div>
       </PageHeader>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
