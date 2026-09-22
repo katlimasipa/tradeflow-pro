@@ -70,7 +70,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       </aside>
 
       {/* Mobile top bar */}
-      <div className="md:hidden fixed top-0 inset-x-0 z-30 border-b bg-background/85 backdrop-blur">
+      <div
+        className="md:hidden fixed top-0 inset-x-0 z-30 border-b bg-background/85 backdrop-blur"
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
+      >
         <div className="flex items-center justify-between px-4 h-14">
           <div className="flex items-center gap-2">
             <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
