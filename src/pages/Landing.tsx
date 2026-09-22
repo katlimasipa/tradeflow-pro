@@ -2,6 +2,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useSession } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Calendar, LineChart, ImageIcon } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 export default function Landing() {
   const { session, loading } = useSession();
@@ -12,10 +13,7 @@ export default function Landing() {
     <div className="min-h-screen bg-background">
       <header className="border-b">
         <div className="mx-auto max-w-[1180px] px-5 md:px-10 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
-            <span className="font-display text-[15px]">LedgerZar</span>
-          </div>
+          <img src={logo} alt="LedgerZar" className="h-6 w-auto" />
           <div className="flex items-center gap-2">
             <Button asChild variant="ghost" size="sm"><Link to="/auth">Sign in</Link></Button>
             <Button asChild size="sm"><Link to="/auth">Get started</Link></Button>

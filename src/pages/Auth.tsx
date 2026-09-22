@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 export default function Auth() {
   const { session, loading } = useSession();
@@ -43,10 +44,7 @@ export default function Auth() {
   return (
     <div className="min-h-screen grid md:grid-cols-2 bg-background">
       <div className="hidden md:flex flex-col justify-between p-12 bg-surface-sunk relative overflow-hidden">
-        <div className="flex items-center gap-2">
-          <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
-          <span className="font-display text-[15px]">LedgerZar</span>
-        </div>
+        <img src={logo} alt="LedgerZar" className="h-7 w-auto" />
         <div className="relative z-10">
           <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-3">A trading journal</div>
           <h1 className="font-display text-5xl leading-[1.05] tracking-tight max-w-md">
@@ -63,10 +61,7 @@ export default function Auth() {
 
       <div className="flex items-center justify-center p-6 md:p-12">
         <div className="w-full max-w-sm">
-          <div className="md:hidden flex items-center gap-2 mb-10">
-            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
-            <span className="font-display text-[15px]">LedgerZar</span>
-          </div>
+          <img src={logo} alt="LedgerZar" className="md:hidden h-6 w-auto mb-10" />
           <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">
             {mode === "signin" ? "Welcome back" : "Get started"}
           </div>
