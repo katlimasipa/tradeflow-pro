@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { resetTradesCache } from "@/lib/store";
 import { resetBacktestCache } from "@/lib/backtest";
+import logo from "@/assets/logo.png";
 
 const nav = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, end: true },
@@ -29,13 +30,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       {/* Sidebar — desktop */}
       <aside className="hidden md:flex w-60 shrink-0 flex-col border-r bg-sidebar">
         <div className="px-5 pt-6 pb-8">
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
-            <div className="leading-tight">
-              <div className="font-display text-[15px]">LedgerZar</div>
-              <div className="text-[11px] text-muted-foreground">Trading journal</div>
-            </div>
-          </div>
+          <img src={logo} alt="LedgerZar" className="h-6 w-auto" />
         </div>
         <nav className="px-3 flex flex-col gap-0.5">
           {nav.map((n) => (
@@ -75,10 +70,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
         <div className="flex items-center justify-between px-4 h-14">
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-primary text-primary-foreground grid place-items-center font-display text-sm">LZ</div>
-            <span className="font-display text-[15px]">LedgerZar</span>
-          </div>
+          <img src={logo} alt="LedgerZar" className="h-5 w-auto" />
           <Button size="sm" onClick={() => setOpen(true)} className="gap-1.5">
             <Plus className="h-4 w-4" /> Trade
           </Button>
